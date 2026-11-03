@@ -6,9 +6,29 @@ public class Turno_Cafeteria {
         int[] pedidoProducto = {0, 2, 1, 4, 0, 3}; // índice del producto en cada pedido
         int[] pedidoCantidad = {2, 1, 3, 1, 1, 2}; // unidades por pedido
         int inventarioBrownie= 10;
+        int monto=-6;
+        int pedidosProcesados = 0;
+        double totalRecaudado = 0;
+        double pedidoMayor = 0;
+        int numeroPedidoMayor = 0;
+
+        do {
+            if (monto <= 0) {
+                System.out.println("Monto inválido. Intente nuevamente.");
+                monto = 50000;
+            }
+        }while (monto <= 0);
 
         for (int i = 0; i < pedidoProducto.length; i++) {
             int indice = pedidoProducto[i];
+            if(indice==4){
+                if(pedidoCantidad[i]<=inventarioBrownie) {
+                    inventarioBrownie=inventarioBrownie-pedidoCantidad[i];
+                }else {
+                    System.out.println("El producto está agotado");
+                    continue;
+                }
+            }
 
             System.out.println("Producto: " + nombres[indice]);
             System.out.println("Precio: $" + precios[indice]);
@@ -31,6 +51,14 @@ public class Turno_Cafeteria {
             System.out.println("Valor del descuento: $" + descuento);
             System.out.println("Total a pagar: $" + total);
 
+            pedidosProcesados++;
+            totalRecaudado += total;
+
+            if (total > pedidoMayor) {
+                pedidoMayor = total;
+                numeroPedidoMayor = i + 1;
+            }
+
             switch (categorias[indice]) {
                 case 'B':
                     System.out.println("Bebidas calientes: 0% IVA");
@@ -50,6 +78,11 @@ public class Turno_Cafeteria {
             }
 
         }
+        System.out.println("\n========== CIERRE DE CAJA ==========");
+        System.out.println("Pedidos procesados: " + pedidosProcesados);
+        System.out.println("Total recaudado: $" + totalRecaudado);
+        System.out.println("Número del pedido con mayor valor: " + numeroPedidoMayor);
+        System.out.println("Valor del pedido mayor: $" + pedidoMayor);
 
     }
 }
